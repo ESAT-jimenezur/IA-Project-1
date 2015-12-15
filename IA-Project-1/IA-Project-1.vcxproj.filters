@@ -18,5 +18,13 @@
     <ClCompile Include="src\main.cc">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\physic_object.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\physic_object.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

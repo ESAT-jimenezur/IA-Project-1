@@ -5,10 +5,8 @@
 #include <ESAT/sprite.h>
 #include <ESAT/input.h>
 
-
 int ESAT::main(int argc, char** argv){
   ESAT::WindowInit(800, 600);
-
   
   float currentTime = ESAT::Time();
   float mITimeStep = 40.0;
