@@ -14,11 +14,19 @@ PhysicObject::~PhysicObject(){
 
 }
 
-float PhysicObject::x(){
+float PhysicObject::x()const{
   return pos_x_;
 }
 
-void PhysicObject::y(float y){
+float PhysicObject::y()const{
+  return pos_y_;
+}
+
+void PhysicObject::set_x(float x){
+  pos_x_ = x;
+}
+
+void PhysicObject::set_y(float y){
   pos_y_ = y;
 }
 
@@ -28,3 +36,11 @@ void PhysicObject::setPosition(float x, float y){
 }
 
 
+void PhysicObject::render(){
+
+}
+
+
+void PhysicObject::update(){
+
+}

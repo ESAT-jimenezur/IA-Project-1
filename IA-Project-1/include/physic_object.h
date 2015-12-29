@@ -7,8 +7,10 @@ public:
 
   void init();
 
-  float x();
-  float y();
+  float x()const;
+  float y()const;
+  void set_x(float x);
+  void set_y(float y);
   void setPosition(float x, float y);
 
   virtual void render();
