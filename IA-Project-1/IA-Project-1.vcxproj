@@ -82,11 +82,13 @@
     <ClCompile Include="src\agent.cc" />
     <ClCompile Include="src\drawable.cc" />
     <ClCompile Include="src\main.cc" />
+    <ClCompile Include="src\particle.cc" />
     <ClCompile Include="src\physic_object.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\agent.h" />
     <ClInclude Include="include\drawable.h" />
+    <ClInclude Include="include\particle.h" />
     <ClInclude Include="include\physic_object.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -27,6 +27,9 @@
     <ClCompile Include="src\agent.cc">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\particle.cc">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\physic_object.h">
@@ -36,6 +39,9 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\agent.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\particle.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>

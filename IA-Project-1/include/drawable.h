@@ -4,25 +4,18 @@
 
 #include <ESAT/sprite.h>
 
-class Drawable{
+#include <particle.h>
+
+class Drawable : public Particle{
 public:
   Drawable();
-  ~Drawable();
+  virtual ~Drawable();
 
-  float x()const;
-  float y()const;
-  void set_x(float x);
-  void set_y(float y);
-  void setPosition(float x, float y);
   virtual void draw();
   void loadSpriteFromFile(const char* path);
 
-private:
+protected:
   ESAT::SpriteHandle sprite_;
-
-  float pos_x_;
-  float pos_y_;
-
 };
 
 #endif // !__DRAWABLE__

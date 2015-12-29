@@ -10,4 +10,4 @@ public:
 
 };
 
-#endif // !__PHYSIC_OBJECT__
+#endif // !__AGENT__

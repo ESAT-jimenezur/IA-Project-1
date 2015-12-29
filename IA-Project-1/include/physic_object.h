@@ -6,15 +6,13 @@
 class PhysicObject : public Drawable{
 public:
   PhysicObject();
-  ~PhysicObject();
+  virtual ~PhysicObject();
 
   void init();
 
   virtual void update();
 
-private:
-
-
+protected:
   float mass_;
   float speed_;
   float accel_;
