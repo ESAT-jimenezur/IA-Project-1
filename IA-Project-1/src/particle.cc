@@ -9,22 +9,22 @@ Particle::~Particle(){
 }
 
 float Particle::x()const{
-  return pos_x_;
+  return position_.x;
 }
 
 float Particle::y()const{
-  return pos_y_;
+  return position_.y;
 }
 
 void Particle::set_x(float x){
-  pos_x_ = x;
+  position_.x = x;
 }
 
 void Particle::set_y(float y){
-  pos_y_ = y;
+  position_.y = y;
 }
 
 void Particle::setPosition(float x, float y){
-  pos_x_ = x;
-  pos_y_ = y;
+  position_.x = x;
+  position_.y = y;
 }

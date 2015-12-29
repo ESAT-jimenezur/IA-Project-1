@@ -1,6 +1,7 @@
 #ifndef __PARTICLE__
 #define __PARTICLE__
 
+#include <nglvector.h>
 
 #include <ESAT/sprite.h>
 
@@ -16,8 +17,7 @@ public:
   void setPosition(float x, float y);
 
 protected:
-  float pos_x_;
-  float pos_y_;
+  Vector2D position_;
 };
 
 #endif // !__PARTICLE__

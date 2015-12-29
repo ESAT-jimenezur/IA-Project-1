@@ -14,5 +14,5 @@ void Drawable::loadSpriteFromFile(const char* path){
 }
 
 void Drawable::draw(){
-  ESAT::DrawSprite(sprite_, pos_x_, pos_y_);
+  ESAT::DrawSprite(sprite_, position_.x, position_.y);
 }

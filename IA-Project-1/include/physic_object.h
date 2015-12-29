@@ -1,6 +1,8 @@
 #ifndef __PHYSIC_OBJECT__
 #define __PHYSIC_OBJECT__
 
+#include <nglvector.h>
+
 #include <drawable.h>
 
 class PhysicObject : public Drawable{
@@ -9,13 +11,17 @@ public:
   virtual ~PhysicObject();
 
   void init();
+  void setVelocity(float x, float y);
+  void setAcceleration(float x, float y);
 
-  virtual void update();
+  void move(float dt);
+
+  virtual void update(float dt);
 
 protected:
-  float mass_;
-  float speed_;
-  float accel_;
+  float  dt_;
+  Vector2D velocity_;
+  Vector2D acceleration_;
 };
 
 #endif // !__PHYSIC_OBJECT__

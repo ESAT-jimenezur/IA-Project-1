@@ -34,7 +34,7 @@ int ESAT::main(int argc, char** argv){
     
     // UPDATE
     for (unsigned int i = 0; i < agents.size(); ++i){
-      agents[i].update();
+      agents[i].update(accumTime);
     }
 
     while (accumTime >= mITimeStep) {
