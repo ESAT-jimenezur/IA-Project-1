@@ -5,9 +5,14 @@
 #include <ESAT/sprite.h>
 #include <ESAT/input.h>
 
+
 int ESAT::main(int argc, char** argv){
-  ESAT::WindowInit(800, 600);
-  
+  ESAT::WindowInit(1000, 700);
+
+  // Load map
+  ESAT::SpriteHandle map_sprite_handle = ESAT::SpriteFromFile("assets/maps/800x600_zel.jpg");
+
+
   float currentTime = ESAT::Time();
   float mITimeStep = 40.0;
   
@@ -20,6 +25,9 @@ int ESAT::main(int argc, char** argv){
     ESAT::DrawClear(0, 0, 0, 255);
     ESAT::DrawBegin();
     // Draw
+
+    ESAT::DrawSprite(map_sprite_handle, 0, 0);
+
     ESAT::DrawEnd();
 
     ESAT::WindowFrame();
