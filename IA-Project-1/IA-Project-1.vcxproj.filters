@@ -50,5 +50,8 @@
     <ClInclude Include="include\nglvector.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\constants.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -15,12 +15,12 @@ void PhysicObject::update(float dt){
   move(dt);
 }
 
-void PhysicObject::setVelocity(float x, float y){
+void PhysicObject::set_velocity(float x, float y){
   velocity_.x = x;
   velocity_.y = y;
 }
 
-void PhysicObject::setAcceleration(float x, float y){
+void PhysicObject::set_acceleration(float x, float y){
   acceleration_.x = x;
   acceleration_.y = y;
 }

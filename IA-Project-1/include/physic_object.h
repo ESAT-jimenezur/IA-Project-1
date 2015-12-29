@@ -11,8 +11,8 @@ public:
   virtual ~PhysicObject();
 
   void init();
-  void setVelocity(float x, float y);
-  void setAcceleration(float x, float y);
+  void set_velocity(float x, float y);
+  void set_acceleration(float x, float y);
 
   void move(float dt);
 

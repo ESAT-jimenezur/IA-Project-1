@@ -88,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\agent.h" />
+    <ClInclude Include="include\constants.h" />
     <ClInclude Include="include\drawable.h" />
     <ClInclude Include="include\nglvector.h" />
     <ClInclude Include="include\particle.h" />
