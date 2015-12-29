@@ -7,18 +7,17 @@
 #include <ESAT/sprite.h>
 #include <ESAT/input.h>
 
-
-#include <physic_object.h>
+#include <agent.h>
 
 int ESAT::main(int argc, char** argv){
   ESAT::WindowInit(1000, 700);
 
-  std::vector<PhysicObject> agents;
+  std::vector<Agent> agents;
 
   // Load map
   ESAT::SpriteHandle map_sprite_handle = ESAT::SpriteFromFile("assets/maps/800x600_zel.jpg");
 
-  PhysicObject test_object;
+  Agent test_object;
   test_object.loadSpriteFromFile("assets/agents/allied_soldier.bmp");
   test_object.set_x(100.0f);
   test_object.set_y(100.0f);

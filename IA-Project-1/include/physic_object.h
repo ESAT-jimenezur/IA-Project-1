@@ -1,9 +1,6 @@
 #ifndef __PHYSIC_OBJECT__
 #define __PHYSIC_OBJECT__
 
-
-#include <ESAT/sprite.h>
-
 #include <drawable.h>
 
 class PhysicObject : public Drawable{
