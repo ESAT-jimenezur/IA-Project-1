@@ -79,10 +79,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\drawable.cc" />
     <ClCompile Include="src\main.cc" />
     <ClCompile Include="src\physic_object.cc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\drawable.h" />
     <ClInclude Include="include\physic_object.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
