@@ -17,19 +17,24 @@ public:
   AGENT_TYPE type()const;
   void set_type(AGENT_TYPE type);
 
+  void change_agent_type(AGENT_TYPE new_type);
+
   void set_patrol_points(std::vector<Vector2D> points);
   void set_chase_objective(Vector2D objective);
+  void set_follow_objective(Agent *objective);
   void set_random_destination_point(Vector2D point);
   void set_random_radius(unsigned int radius);
 
   void patrol(float dt);
   void chase(float dt);
+  void follow(float dt);
   void random_movement(float dt);
 
   void update(float dt);
 
   void commandos_agent_update(float dt);
   void commandos_agent_attitude_idle(float dt);
+  void commandos_agent_attitude_chaser(float dt);
   void commandos_agent_lookout(std::vector<Agent> *agents_to_watch);
 
 protected:
@@ -42,6 +47,7 @@ protected:
 
   // CHASE
   Vector2D chase_objective_;
+  Agent *follow_objective_agent_;
   
   // RANDOM
   unsigned int random_movement_zone_radius_;
@@ -51,7 +57,9 @@ protected:
   // THIS IS A COMPLEX AGENT. IT CAN HAVE AN ATTITUDE.
   AGENT_TYPE commandos_agent_attitude_;
   bool commandos_think_message_shown_;
+  bool commandos_is_chasing_objective_;
   std::vector<Agent> *agents_to_watch_;
+  Agent *agent_to_chase_;
 };
 
 #endif // !__AGENT__

@@ -25,6 +25,7 @@ Agent::Agent(){
   commandos_think_message_shown_ = false;
   current_patrol_point_index_ = 0;
   random_movement_zone_radius_ = 50;
+  commandos_is_chasing_objective_ = false;
   agents_to_watch_ = NULL;
 }
 
@@ -36,6 +37,9 @@ void Agent::set_type(AGENT_TYPE type){
   type_ = type;
 }
 
+void Agent::change_agent_type(AGENT_TYPE new_type){
+  type_ = new_type;
+}
 
 void Agent::update(float dt){
   PhysicObject::update(dt);
@@ -48,6 +52,9 @@ void Agent::update(float dt){
     break;
   case AGENT_TYPE::TYPE_CHASER:
     chase(dt);
+    break;
+  case AGENT_TYPE::TYPE_FOLLOWING:
+    follow(dt);
     break;
   case AGENT_TYPE::TYPE_RANDOM_MOVEMENT:
     random_movement(dt);
@@ -62,11 +69,13 @@ void Agent::update(float dt){
 }
 
 void Agent::commandos_agent_update(float dt){
+  // BRAIN
   switch (commandos_agent_attitude_){
   case AGENT_TYPE::TYPE_IDLE:
     commandos_agent_attitude_idle(dt);
     break;
   case AGENT_TYPE::TYPE_CHASER:
+    commandos_agent_attitude_chaser(dt);
     break;
   default:
     break;
@@ -92,12 +101,42 @@ void Agent::commandos_agent_attitude_idle(float dt){
         // If that agent (who we are watching) is near enough, follow him
         if (is_near_enought(position_, agents_to_watch_->at(i).position_, 100.0f)){
           commandos_agent_attitude_ = AGENT_TYPE::TYPE_CHASER;
+          agent_to_chase_ = &agents_to_watch_->at(i);
+          commandos_think_message_shown_ = false;
+          commandos_is_chasing_objective_ = true;
         }
-
       }
     }
   
   }
+}
+
+void Agent::commandos_agent_attitude_chaser(float dt){
+  
+  if (!commandos_think_message_shown_){
+    printf("COMMANDOS AGENT SAYS: Hey man, what are you doing! STOP!!!\n");
+    commandos_think_message_shown_ = true;
+  }
+
+  if (agent_to_chase_ != NULL){
+    if (commandos_is_chasing_objective_){
+      move_to(agent_to_chase_->position_.x, agent_to_chase_->position_.y, dt);
+    }else{
+      // TAKE THE PRISONER TO JAIL
+      // X 696.0 - Y 420.0
+      move_to(696.0f, 420.0f, dt);
+    }
+
+    // TODO
+    printf("PUNCH!\n");
+    if (is_near_enought(position_, agent_to_chase_->position_, 10.0f)){
+      agent_to_chase_->change_agent_type(AGENT_TYPE::TYPE_FOLLOWING);
+      agent_to_chase_->set_follow_objective(this);
+      commandos_is_chasing_objective_ = false;
+    }
+
+  }
+
 }
 
 void Agent::set_patrol_points(std::vector<Vector2D> points){
@@ -108,6 +147,10 @@ void Agent::set_patrol_points(std::vector<Vector2D> points){
 
 void Agent::set_chase_objective(Vector2D objective){
   chase_objective_ = objective;
+}
+
+void Agent::set_follow_objective(Agent *objective){
+  follow_objective_agent_ = objective;
 }
 
 void Agent::set_random_destination_point(Vector2D point){
@@ -136,6 +179,10 @@ void Agent::patrol(float dt){
 
 void Agent::chase(float dt){
   move_to(chase_objective_.x, chase_objective_.y, dt);
+}
+
+void Agent::follow(float dt){
+  move_to(follow_objective_agent_->position_.x, follow_objective_agent_->position_.y, dt);
 }
 
 void Agent::random_movement(float dt){
