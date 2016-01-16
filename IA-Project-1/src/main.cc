@@ -52,6 +52,15 @@ int ESAT::main(int argc, char** argv){
   agent_mouse_follower.set_y(100.0f);
 
 
+  Agent agent_random_movement;
+  agent_random_movement.loadSpriteFromFile("agents/allied_engineer.bmp");
+  agent_random_movement.set_type(AGENT_TYPE::TYPE_RANDOM_MOVEMENT);
+  agent_random_movement.set_velocity(1.0f);
+  agent_random_movement.set_x(500.0f);
+  agent_random_movement.set_y(350.0f);
+  agent_random_movement.set_random_radius(200.0f);
+  agents.push_back(agent_random_movement);
+
   float currentTime = ESAT::Time();
   float mITimeStep = 40.0;
   
