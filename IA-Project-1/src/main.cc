@@ -22,19 +22,19 @@ int ESAT::main(int argc, char** argv){
   Agent agent_patrol;
   agent_patrol.loadSpriteFromFile("agents/allied_soldier.bmp");
   agent_patrol.set_type(AGENT_TYPE::TYPE_PATH_PATROL);
-  agent_patrol.set_velocity(5.0f);
-  agent_patrol.set_x(100.0f);
+  agent_patrol.set_velocity(1.0f);
+  agent_patrol.set_x(500.0f);
   agent_patrol.set_y(100.0f);
 
   // Patrol path points
   std::vector<Vector2D>patrol_points;
   Vector2D patrol_point1(agent_patrol.x(), agent_patrol.y());
   patrol_points.push_back(patrol_point1);
-  Vector2D patrol_point2(200.0f, 100.0f);
+  Vector2D patrol_point2(883.0f, 93.0f);
   patrol_points.push_back(patrol_point2);
-  Vector2D patrol_point3(200.0f, 200.0f);
+  Vector2D patrol_point3(860.0f, 574.0f);
   patrol_points.push_back(patrol_point3);
-  Vector2D patrol_point4(0.0f, 200.0f);
+  Vector2D patrol_point4(487.0f, 579.0f);
   // Add points to vector
   patrol_points.push_back(patrol_point4);
 
@@ -47,7 +47,7 @@ int ESAT::main(int argc, char** argv){
   Agent agent_mouse_follower;
   agent_mouse_follower.loadSpriteFromFile("agents/axis_medic.bmp");
   agent_mouse_follower.set_type(AGENT_TYPE::TYPE_CHASER);
-  agent_mouse_follower.set_velocity(5.0f);
+  agent_mouse_follower.set_velocity(1.0f);
   agent_mouse_follower.set_x(100.0f);
   agent_mouse_follower.set_y(100.0f);
 
@@ -89,6 +89,13 @@ int ESAT::main(int argc, char** argv){
     }
 
     agent_mouse_follower.draw();
+
+
+
+    // DEBUG
+    if (ESAT::IsKeyDown('P')){
+      printf("MOUSE POSITION: X->%f | Y->%f\n", ESAT::MousePositionX(), ESAT::MousePositionY());
+    }
 
     ESAT::DrawEnd();
 

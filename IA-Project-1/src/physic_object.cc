@@ -39,7 +39,7 @@ void PhysicObject::move(float dt){
 
 
 void PhysicObject::move_to(float x, float y, float dt){
-  float time = dt / 0.0001;
+  float time = dt;
 
   float delta_x = x - position_.x; /*difference in x positions*/
   float delta_y = y - position_.y; /*difference in y positions*/
@@ -48,20 +48,23 @@ void PhysicObject::move_to(float x, float y, float dt){
   double tangent = (delta_y / delta_x); //find angle
   double angle = atan(tangent) * (180 / M_PI); //important for direction
   
-  velocity_.x = velocity_.x + (acceleration_.x * time);
-  velocity_.y = velocity_.y + (acceleration_.y * time);
+  //double dx = cos(angle) * velocity_.x;
+  //double dy = sin(angle) * velocity_.y;
 
-  double dx = cos(angle) * velocity_.x;
-  double dy = sin(angle) * velocity_.y;
+  float length = sqrt(delta_x*delta_x + delta_y*delta_y);
 
-  float length = sqrt(dx*dx + dy*dy);
+  delta_x /= length;
+  delta_y /= length;
 
-  dx /= length;
-  dy /= length;
+  float speed_x = velocity_.x + (acceleration_.x * time);
+  float speed_y = velocity_.y + (acceleration_.y * time);
+
+  delta_x *= speed_x;
+  delta_y *= speed_y;
 
   /*Move the target toward the cursor/user*/
-  position_.x = position_.x + dx; //original x position changed by dx
-  position_.y = position_.y + dy; //original y position changed by dy
+  position_.x = position_.x + delta_x; //original x position changed by dx
+  position_.y = position_.y + delta_y; //original y position changed by dy
 }
 
 bool PhysicObject::is_near_enought(Vector2D point, Vector2D dest_center, float radius){
