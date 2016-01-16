@@ -28,7 +28,11 @@ public:
 
   void update(float dt);
 
-private:
+  void commandos_agent_update(float dt);
+  void commandos_agent_attitude_idle(float dt);
+  void commandos_agent_lookout(std::vector<Agent> *agents_to_watch);
+
+protected:
   AGENT_TYPE type_;
   
   // PATROL
@@ -42,6 +46,12 @@ private:
   // RANDOM
   unsigned int random_movement_zone_radius_;
   Vector2D random_destination_point_;
+
+  // COMMANDOS AGENT
+  // THIS IS A COMPLEX AGENT. IT CAN HAVE AN ATTITUDE.
+  AGENT_TYPE commandos_agent_attitude_;
+  bool commandos_think_message_shown_;
+  std::vector<Agent> *agents_to_watch_;
 };
 
 #endif // !__AGENT__

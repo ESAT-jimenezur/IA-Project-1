@@ -21,8 +21,11 @@
 Agent::Agent(){
   srand(time(NULL));
   type_ = AGENT_TYPE::TYPE_IDLE;
+  commandos_agent_attitude_ = AGENT_TYPE::TYPE_IDLE;
+  commandos_think_message_shown_ = false;
   current_patrol_point_index_ = 0;
   random_movement_zone_radius_ = 50;
+  agents_to_watch_ = NULL;
 }
 
 Agent::~Agent(){
@@ -49,10 +52,52 @@ void Agent::update(float dt){
   case AGENT_TYPE::TYPE_RANDOM_MOVEMENT:
     random_movement(dt);
     break;
+  case AGENT_TYPE::TYPE_AGENT_COMMANDOS:
+    commandos_agent_update(dt);
+    break;
   default:
     break;
   }
 
+}
+
+void Agent::commandos_agent_update(float dt){
+  switch (commandos_agent_attitude_){
+  case AGENT_TYPE::TYPE_IDLE:
+    commandos_agent_attitude_idle(dt);
+    break;
+  case AGENT_TYPE::TYPE_CHASER:
+    break;
+  default:
+    break;
+  }
+}
+
+void Agent::commandos_agent_lookout(std::vector<Agent> *agents_to_watch){
+  agents_to_watch_ = agents_to_watch;
+}
+
+void Agent::commandos_agent_attitude_idle(float dt){
+  
+  if (!commandos_think_message_shown_){
+    printf("COMMANDOS AGENT SAYS: I'll stay here, I need to protect this house against the vandals\n");
+    commandos_think_message_shown_ = true;
+  }
+
+  if (agents_to_watch_ != NULL && agents_to_watch_ > 0){
+
+    for (unsigned int i = 0; i < agents_to_watch_->size(); ++i){
+      if (agents_to_watch_->at(i).type_ != AGENT_TYPE::TYPE_AGENT_COMMANDOS){
+        
+        // If that agent (who we are watching) is near enough, follow him
+        if (is_near_enought(position_, agents_to_watch_->at(i).position_, 100.0f)){
+          commandos_agent_attitude_ = AGENT_TYPE::TYPE_CHASER;
+        }
+
+      }
+    }
+  
+  }
 }
 
 void Agent::set_patrol_points(std::vector<Vector2D> points){

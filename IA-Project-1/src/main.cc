@@ -61,6 +61,16 @@ int ESAT::main(int argc, char** argv){
   agent_random_movement.set_random_radius(200.0f);
   agents.push_back(agent_random_movement);
 
+
+  Agent agent_complex_commandos;
+  agent_complex_commandos.loadSpriteFromFile("agents/bitmap_mask.bmp");
+  agent_complex_commandos.set_type(AGENT_TYPE::TYPE_AGENT_COMMANDOS);
+  agent_complex_commandos.set_velocity(1.0f);
+  agent_complex_commandos.set_x(650.0f);
+  agent_complex_commandos.set_y(505.0f);
+  agent_complex_commandos.commandos_agent_lookout(&agents);
+  agents.push_back(agent_complex_commandos);
+
   float currentTime = ESAT::Time();
   float mITimeStep = 40.0;
   
