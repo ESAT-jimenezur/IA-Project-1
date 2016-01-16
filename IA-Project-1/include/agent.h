@@ -18,8 +18,10 @@ public:
   void set_type(AGENT_TYPE type);
 
   void set_patrol_points(std::vector<Vector2D> points);
-  void patrol(float dt);
+  void set_chase_objective(Vector2D objective);
 
+  void patrol(float dt);
+  void chase(float dt);
 
   void update(float dt);
 
@@ -28,6 +30,8 @@ private:
   std::vector<Vector2D> patrol_points_;
   Vector2D current_patrol_point_;
   unsigned int current_patrol_point_index_;
+
+  Vector2D chase_objective_;
 
   bool arrived_x_;
   bool arrived_y_;

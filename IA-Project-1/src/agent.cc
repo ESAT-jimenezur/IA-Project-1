@@ -41,6 +41,9 @@ void Agent::update(float dt){
   case AGENT_TYPE::TYPE_PATH_PATROL:
     patrol(dt);
     break;
+  case AGENT_TYPE::TYPE_CHASER:
+    chase(dt);
+    break;
   default:
     break;
   }
@@ -51,7 +54,10 @@ void Agent::set_patrol_points(std::vector<Vector2D> points){
   patrol_points_ = points;
   current_patrol_point_index_ = 0;
   current_patrol_point_ = points[current_patrol_point_index_]; // First patrol point
-  //printf("%f %f", current_patrol_point_.x, current_patrol_point_.y);
+}
+
+void Agent::set_chase_objective(Vector2D objective){
+  chase_objective_ = objective;
 }
 
 void Agent::patrol(float dt){
@@ -74,4 +80,8 @@ void Agent::patrol(float dt){
     move_to(current_patrol_point_.x, current_patrol_point_.y, dt);
   }
 
+}
+
+void Agent::chase(float dt){
+  move_to(chase_objective_.x, chase_objective_.y, dt);
 }

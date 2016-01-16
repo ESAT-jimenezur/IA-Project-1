@@ -40,21 +40,32 @@ int ESAT::main(int argc, char** argv){
 
   agent_patrol.set_patrol_points(patrol_points);
 
-
   agents.push_back(agent_patrol);
+
+
+
+  Agent agent_mouse_follower;
+  agent_mouse_follower.loadSpriteFromFile("agents/axis_medic.bmp");
+  agent_mouse_follower.set_type(AGENT_TYPE::TYPE_CHASER);
+  agent_mouse_follower.set_velocity(5.0f);
+  agent_mouse_follower.set_x(100.0f);
+  agent_mouse_follower.set_y(100.0f);
 
 
   float currentTime = ESAT::Time();
   float mITimeStep = 40.0;
   
   while (ESAT::WindowIsOpened()){
+
     int accumTime = ESAT::Time() - currentTime;
+
+    float delta_time = (float)(accumTime - accumTime) / 1000;
     
     // INPUT
     
     // UPDATE
     for (unsigned int i = 0; i < agents.size(); ++i){
-      agents[i].update(accumTime);
+      agents[i].update(delta_time);
     }
     //test_object.move_to(400.0f, 100.0f, accumTime);
 
@@ -63,7 +74,9 @@ int ESAT::main(int argc, char** argv){
       accumTime = ESAT::Time() - currentTime;
     }
 
-    
+    agent_mouse_follower.set_chase_objective(Vector2D(ESAT::MousePositionX(), ESAT::MousePositionY()));
+    agent_mouse_follower.update(delta_time);
+
 
     ESAT::DrawClear(0, 0, 0, 255);
     ESAT::DrawBegin();
@@ -74,6 +87,8 @@ int ESAT::main(int argc, char** argv){
     for (unsigned int i = 0; i < agents.size(); ++i){
       agents[i].draw();
     }
+
+    agent_mouse_follower.draw();
 
     ESAT::DrawEnd();
 
