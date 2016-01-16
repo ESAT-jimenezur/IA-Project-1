@@ -18,7 +18,10 @@ public:
   void move(float dt);
   void move_to(float x, float y, float dt);
 
+  virtual bool is_near_enought(Vector2D point, Vector2D dest_center, float radius);
+
   virtual void update(float dt);
+  
 
 protected:
   float  dt_;

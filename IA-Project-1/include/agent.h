@@ -23,8 +23,6 @@ public:
 
   void update(float dt);
 
-  bool is_near_enought(Vector2D point, Vector2D dest_center, float radius);
-
 private:
   AGENT_TYPE type_;
   std::vector<Vector2D> patrol_points_;

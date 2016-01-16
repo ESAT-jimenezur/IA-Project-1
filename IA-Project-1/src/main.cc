@@ -32,9 +32,9 @@ int ESAT::main(int argc, char** argv){
   patrol_points.push_back(patrol_point1);
   Vector2D patrol_point2(200.0f, 100.0f);
   patrol_points.push_back(patrol_point2);
-  Vector2D patrol_point3(200.0f, 0.0f);
+  Vector2D patrol_point3(200.0f, 200.0f);
   patrol_points.push_back(patrol_point3);
-  Vector2D patrol_point4(0.0f, 0.0f);
+  Vector2D patrol_point4(0.0f, 200.0f);
   // Add points to vector
   patrol_points.push_back(patrol_point4);
 

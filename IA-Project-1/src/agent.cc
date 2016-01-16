@@ -59,8 +59,8 @@ void Agent::patrol(float dt){
   
   
   //printf("%d\n", current_patrol_point_index_);
-  printf("%d\n", is_near_enought(position_, current_patrol_point_, 25.0));
-  if (is_near_enought(position_, current_patrol_point_, 25.0)){
+
+  if (is_near_enought(position_, current_patrol_point_, 5.0f)){
     current_patrol_point_index_++;
     if (current_patrol_point_index_ >= patrol_points_.size()){
       current_patrol_point_index_ = 0;
@@ -74,17 +74,4 @@ void Agent::patrol(float dt){
     move_to(current_patrol_point_.x, current_patrol_point_.y, dt);
   }
 
-  /*
-  if (position_.x == patrol_points_[current_patrol_point_index_].x 
-    && position_.y == patrol_points_[current_patrol_point_index_].y){
-    current_patrol_point_index_++;
-    current_patrol_point_ = patrol_points_[current_patrol_point_index_];
-    //printf("%d\n", current_patrol_point_index_);
-  }*/
-}
-
-bool Agent::is_near_enought(Vector2D point, Vector2D dest_center, float radius){
-  float dist = sqrt(pow((point.x - dest_center.x), 2) + pow((point.y - dest_center.y), 2));
-  //printf("%f - %f\n", dist, radius);
-  return dist <= pow(radius, 2);
 }
