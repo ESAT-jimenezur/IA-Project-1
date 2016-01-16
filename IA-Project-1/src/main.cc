@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <vector>
 
+#include <nglvector.h>
+
 #include <ESAT/window.h>
 #include <ESAT/time.h>
 #include <ESAT/draw.h>
@@ -15,13 +17,31 @@ int ESAT::main(int argc, char** argv){
   std::vector<Agent> agents;
 
   // Load map
-  ESAT::SpriteHandle map_sprite_handle = ESAT::SpriteFromFile("assets/maps/800x600_zel.jpg");
+  ESAT::SpriteHandle map_sprite_handle = ESAT::SpriteFromFile("maps/800x600_zel.jpg");
 
-  Agent test_object;
-  test_object.loadSpriteFromFile("assets/agents/allied_soldier.bmp");
-  test_object.set_x(100.0f);
-  test_object.set_y(100.0f);
-  agents.push_back(test_object);
+  Agent agent_patrol;
+  agent_patrol.loadSpriteFromFile("agents/allied_soldier.bmp");
+  agent_patrol.set_type(AGENT_TYPE::TYPE_PATH_PATROL);
+  agent_patrol.set_velocity(5.0f);
+  agent_patrol.set_x(100.0f);
+  agent_patrol.set_y(100.0f);
+
+  // Patrol path points
+  std::vector<Vector2D>patrol_points;
+  Vector2D patrol_point1(agent_patrol.x(), agent_patrol.y());
+  patrol_points.push_back(patrol_point1);
+  Vector2D patrol_point2(200.0f, 100.0f);
+  patrol_points.push_back(patrol_point2);
+  Vector2D patrol_point3(200.0f, 0.0f);
+  patrol_points.push_back(patrol_point3);
+  Vector2D patrol_point4(0.0f, 0.0f);
+  // Add points to vector
+  patrol_points.push_back(patrol_point4);
+
+  agent_patrol.set_patrol_points(patrol_points);
+
+
+  agents.push_back(agent_patrol);
 
 
   float currentTime = ESAT::Time();
@@ -36,13 +56,14 @@ int ESAT::main(int argc, char** argv){
     for (unsigned int i = 0; i < agents.size(); ++i){
       agents[i].update(accumTime);
     }
+    //test_object.move_to(400.0f, 100.0f, accumTime);
 
     while (accumTime >= mITimeStep) {
       currentTime += mITimeStep;
       accumTime = ESAT::Time() - currentTime;
     }
 
-
+    
 
     ESAT::DrawClear(0, 0, 0, 255);
     ESAT::DrawBegin();

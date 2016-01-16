@@ -11,10 +11,12 @@ public:
   virtual ~PhysicObject();
 
   void init();
+  void set_velocity(float vel);
   void set_velocity(float x, float y);
   void set_acceleration(float x, float y);
 
   void move(float dt);
+  void move_to(float x, float y, float dt);
 
   virtual void update(float dt);
 
