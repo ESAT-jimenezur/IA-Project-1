@@ -39,9 +39,28 @@ int ESAT::main(int argc, char** argv){
   patrol_points.push_back(patrol_point4);
 
   agent_patrol.set_patrol_points(patrol_points);
-
   agents.push_back(agent_patrol);
 
+
+
+
+  Agent agent_patrol2;
+  agent_patrol2.loadSpriteFromFile("agents/allied_soldier.bmp");
+  agent_patrol2.set_type(AGENT_TYPE::TYPE_PATH_PATROL);
+  agent_patrol2.set_velocity(1.0f);
+  agent_patrol2.set_x(75.0f);
+  agent_patrol2.set_y(610.0f);
+
+  // Patrol path points
+  std::vector<Vector2D>patrol2_points;
+  Vector2D patrol2_point(agent_patrol2.x(), agent_patrol2.y());
+  patrol2_points.push_back(patrol2_point);
+  Vector2D patrol2_point2(670.0f, 590.0f);
+  patrol2_points.push_back(patrol2_point2);
+  // Add points to vector
+
+  agent_patrol2.set_patrol_points(patrol2_points);
+  agents.push_back(agent_patrol2);
 
 
   Agent agent_mouse_follower;
@@ -57,9 +76,18 @@ int ESAT::main(int argc, char** argv){
   agent_random_movement.set_type(AGENT_TYPE::TYPE_RANDOM_MOVEMENT);
   agent_random_movement.set_velocity(1.0f);
   agent_random_movement.set_x(500.0f);
-  agent_random_movement.set_y(350.0f);
+  agent_random_movement.set_y(400.0f);
   agent_random_movement.set_random_radius(200.0f);
   agents.push_back(agent_random_movement);
+  
+  Agent agent_random_movement2;
+  agent_random_movement2.loadSpriteFromFile("agents/allied_engineer.bmp");
+  agent_random_movement2.set_type(AGENT_TYPE::TYPE_RANDOM_MOVEMENT);
+  agent_random_movement2.set_velocity(1.0f);
+  agent_random_movement2.set_x(860.0f);
+  agent_random_movement2.set_y(350.0f);
+  agent_random_movement2.set_random_radius(200.0f);
+  agents.push_back(agent_random_movement2);
 
 
   Agent agent_complex_commandos;
@@ -71,26 +99,26 @@ int ESAT::main(int argc, char** argv){
   agent_complex_commandos.commandos_agent_lookout(&agents);
   agents.push_back(agent_complex_commandos);
 
-  float currentTime = ESAT::Time();
+  float lastTime = ESAT::Time();
   float mITimeStep = 40.0;
+  float delta_time = 0.0f;
   
   while (ESAT::WindowIsOpened()){
 
-    int accumTime = ESAT::Time() - currentTime;
+    float thisTime = ESAT::Time();
 
-    float delta_time = (float)(accumTime - accumTime) / 1000;
+    delta_time = (float)(thisTime - lastTime) / 1000;
     
     // INPUT
     
     // UPDATE
+    while (lastTime >= mITimeStep) {
+      lastTime += mITimeStep;
+      lastTime = ESAT::Time() - lastTime;
+    }
+
     for (unsigned int i = 0; i < agents.size(); ++i){
       agents[i].update(delta_time);
-    }
-    //test_object.move_to(400.0f, 100.0f, accumTime);
-
-    while (accumTime >= mITimeStep) {
-      currentTime += mITimeStep;
-      accumTime = ESAT::Time() - currentTime;
     }
 
     agent_mouse_follower.set_chase_objective(Vector2D(ESAT::MousePositionX(), ESAT::MousePositionY()));

@@ -35,10 +35,13 @@ public:
   void commandos_agent_update(float dt);
   void commandos_agent_attitude_idle(float dt);
   void commandos_agent_attitude_chaser(float dt);
+  void commandos_agent_attitude_take_to_jail(float dt);
+  void commandos_return_to_position(float dt);
   void commandos_agent_lookout(std::vector<Agent> *agents_to_watch);
 
 protected:
   AGENT_TYPE type_;
+  bool can_be_chased_;
   
   // PATROL
   std::vector<Vector2D> patrol_points_;
@@ -56,8 +59,12 @@ protected:
   // COMMANDOS AGENT
   // THIS IS A COMPLEX AGENT. IT CAN HAVE AN ATTITUDE.
   AGENT_TYPE commandos_agent_attitude_;
+  float commandos_agent_idling_time_;
   bool commandos_think_message_shown_;
   bool commandos_is_chasing_objective_;
+  bool commandos_is_taking_objective_to_jail_;
+  bool commandos_finished_mission_;
+  bool commandos_should_return_to_position_;
   std::vector<Agent> *agents_to_watch_;
   Agent *agent_to_chase_;
 };
