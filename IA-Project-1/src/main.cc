@@ -21,6 +21,8 @@ int ESAT::main(int argc, char** argv){
   // Load map
   ESAT::SpriteHandle map_sprite_handle = ESAT::SpriteFromFile("maps/800x600_zel.jpg");
 
+  ESAT::SpriteHandle aux_sprite_handle = ESAT::SpriteFromFile("agents/allied_dead_agent.bmp");
+
   Agent agent_patrol;
   agent_patrol.loadSpriteFromFile("agents/allied_soldier.bmp");
   agent_patrol.set_type(AGENT_TYPE::TYPE_PATH_PATROL);
@@ -159,6 +161,15 @@ int ESAT::main(int argc, char** argv){
     agent_mouse_follower.draw();
 
 
+    if (ESAT::IsKeyDown('I')){
+      Agent new_agent_idle;
+      new_agent_idle.set_type(AGENT_TYPE::TYPE_IDLE);
+      new_agent_idle.set_x(ESAT::MousePositionX());
+      new_agent_idle.set_y(ESAT::MousePositionY());
+      new_agent_idle.set_velocity(1.0f);
+      new_agent_idle.set_sprite(aux_sprite_handle);
+      agents.push_back(new_agent_idle);
+    }
 
     // PAUSE
     if (ESAT::IsSpecialKeyDown(kSpecialKey_Space)){

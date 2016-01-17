@@ -13,6 +13,7 @@ public:
 
   virtual void draw();
   void loadSpriteFromFile(const char* path);
+  void set_sprite(ESAT::SpriteHandle handle);
 
 protected:
   ESAT::SpriteHandle sprite_;
