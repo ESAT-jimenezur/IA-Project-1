@@ -24,7 +24,7 @@ public:
   
 
 protected:
-  float  dt_;
+  float dt_;
   Vector2D velocity_;
   Vector2D acceleration_;
 };

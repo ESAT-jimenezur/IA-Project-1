@@ -25,7 +25,9 @@ Agent::Agent(){
   commandos_agent_attitude_ = AGENT_TYPE::TYPE_IDLE;
   commandos_think_message_shown_ = false;
   current_patrol_point_index_ = 0;
-  random_movement_zone_radius_ = 50;
+  random_movement_zone_radius_ = 50.0f;
+  pattern_done_time_ = 0.0f;
+  current_doing_pattern_ = 0;
   commandos_agent_idling_time_ = 0.0f;
   commandos_is_chasing_objective_ = false;
   commandos_is_taking_objective_to_jail_ = false;
@@ -54,6 +56,9 @@ void Agent::update(float dt){
     break;
   case AGENT_TYPE::TYPE_PATH_PATROL:
     patrol(dt);
+    break;
+  case AGENT_TYPE::TYPE_PATTERN:
+    pattern(dt);
     break;
   case AGENT_TYPE::TYPE_CHASER:
     chase(dt);
@@ -138,8 +143,6 @@ void Agent::commandos_agent_attitude_chaser(float dt){
       move_to(agent_to_chase_->position_.x, agent_to_chase_->position_.y, dt);
     }
 
-    // TODO
-    //printf("PUNCH!\n");
     if (is_near_enought(position_, agent_to_chase_->position_, 10.0f) &&
         commandos_is_chasing_objective_){
       agent_to_chase_->change_agent_type(AGENT_TYPE::TYPE_FOLLOWING);
@@ -166,7 +169,7 @@ void Agent::commandos_agent_attitude_take_to_jail(float dt){
   if (is_near_enought(position_, Vector2D(696.0f, 420.0f), 10) &&
     commandos_is_taking_objective_to_jail_){
     if (!commandos_think_message_shown_){
-      printf("COMMANDOS AGENT: You are now my prisoner.!\n");
+      printf("COMMANDOS AGENT: You are now my prisoner!\n");
       commandos_think_message_shown_ = true;
     }
     agent_to_chase_->change_agent_type(AGENT_TYPE::TYPE_IDLE);
@@ -191,31 +194,6 @@ void Agent::commandos_return_to_position(float dt){
     commandos_think_message_shown_ = false;
     commandos_agent_idling_time_ = 0.0f;
   }
-}
-
-
-void Agent::set_patrol_points(std::vector<Vector2D> points){
-  patrol_points_ = points;
-  current_patrol_point_index_ = 0;
-  current_patrol_point_ = points[current_patrol_point_index_]; // First patrol point
-}
-
-void Agent::set_chase_objective(Vector2D objective){
-  chase_objective_ = objective;
-}
-
-void Agent::set_follow_objective(Agent *objective){
-  follow_objective_agent_ = objective;
-}
-
-void Agent::set_random_destination_point(Vector2D point){
-  random_destination_point_ = point;
-}
-
-void Agent::set_random_radius(unsigned int radius){
-  random_movement_zone_radius_ = radius;
-  random_destination_point_.x = rand() % (unsigned int)initial_position_cache_.x + (random_movement_zone_radius_);
-  random_destination_point_.y = rand() % (unsigned int)initial_position_cache_.y + (random_movement_zone_radius_);
 }
 
 void Agent::patrol(float dt){
@@ -251,4 +229,71 @@ void Agent::random_movement(float dt){
   }else{
     move_to(random_destination_point_.x, random_destination_point_.y, dt);
   }
+}
+
+void Agent::pattern(float dt){
+  pattern_done_time_ += dt / 1000000;
+
+  int iterator_index = 0;
+  for(std::multimap<AGENT_PATTERNS, float>::iterator it = patterns_storage_.begin(); it != patterns_storage_.end(); ++it){
+    // (*it).first  = PATTERN
+    // (*it).second = TIME
+
+    if (iterator_index == current_doing_pattern_){
+      switch ((*it).first){
+      case PATTERN_UP:
+        move_to(position_.x, position_.y - 1.0f, dt);
+        break;
+      case PATTERN_DOWN:
+        move_to(position_.x, position_.y + 1.0f, dt);
+        break;
+      case PATTERN_LEFT:
+        move_to(position_.x - 1.0f, position_.y, dt);
+        break;
+      case PATTERN_RIGHT:
+        move_to(position_.x + 1.0f, position_.y, dt);
+        break;
+      }
+    }
+    
+    if (pattern_done_time_ >= (*it).second){
+      if (current_doing_pattern_ >= patterns_storage_.size()-1){
+        current_doing_pattern_ = 0;
+      }else{
+        current_doing_pattern_++;
+      }
+      pattern_done_time_ = 0.0f;
+    }
+
+    iterator_index++;
+  }
+
+}
+
+void Agent::set_patrol_points(std::vector<Vector2D> points){
+  patrol_points_ = points;
+  current_patrol_point_index_ = 0;
+  current_patrol_point_ = points[current_patrol_point_index_]; // First patrol point
+}
+
+void Agent::add_pattern(AGENT_PATTERNS pattern, float time){
+  patterns_storage_.insert(std::pair<AGENT_PATTERNS, float>(pattern, time));
+}
+
+void Agent::set_chase_objective(Vector2D objective){
+  chase_objective_ = objective;
+}
+
+void Agent::set_follow_objective(Agent *objective){
+  follow_objective_agent_ = objective;
+}
+
+void Agent::set_random_destination_point(Vector2D point){
+  random_destination_point_ = point;
+}
+
+void Agent::set_random_radius(unsigned int radius){
+  random_movement_zone_radius_ = radius;
+  random_destination_point_.x = rand() % (unsigned int)initial_position_cache_.x + (random_movement_zone_radius_);
+  random_destination_point_.y = rand() % (unsigned int)initial_position_cache_.y + (random_movement_zone_radius_);
 }

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <vector>
+#include <map>
 
 #include <nglvector.h>
 
@@ -15,6 +16,7 @@ int ESAT::main(int argc, char** argv){
   ESAT::WindowInit(1000, 700);
 
   std::vector<Agent> agents;
+  bool paused = false;
 
   // Load map
   ESAT::SpriteHandle map_sprite_handle = ESAT::SpriteFromFile("maps/800x600_zel.jpg");
@@ -90,6 +92,21 @@ int ESAT::main(int argc, char** argv){
   agents.push_back(agent_random_movement2);
 
 
+  //Agent pattern
+  Agent agent_patterns;
+  agent_patterns.loadSpriteFromFile("agents/allied_flag.bmp");
+  agent_patterns.set_type(AGENT_TYPE::TYPE_PATTERN);
+  agent_patterns.set_velocity(1.0f);
+  agent_patterns.set_x(475.0f);
+  agent_patterns.set_y(375.0f);
+  agent_patterns.add_pattern(PATTERN_UP, 3.0f);
+  agent_patterns.add_pattern(PATTERN_LEFT, 3.0f);
+  agent_patterns.add_pattern(PATTERN_RIGHT, 3.0f);
+  agent_patterns.add_pattern(PATTERN_DOWN, 3.0f);
+
+  agents.push_back(agent_patterns);
+
+
   Agent agent_complex_commandos;
   agent_complex_commandos.loadSpriteFromFile("agents/bitmap_mask.bmp");
   agent_complex_commandos.set_type(AGENT_TYPE::TYPE_AGENT_COMMANDOS);
@@ -98,6 +115,7 @@ int ESAT::main(int argc, char** argv){
   agent_complex_commandos.set_y(505.0f);
   agent_complex_commandos.commandos_agent_lookout(&agents);
   agents.push_back(agent_complex_commandos);
+
 
   float lastTime = ESAT::Time();
   float mITimeStep = 40.0;
@@ -117,13 +135,16 @@ int ESAT::main(int argc, char** argv){
       lastTime = ESAT::Time() - lastTime;
     }
 
-    for (unsigned int i = 0; i < agents.size(); ++i){
-      agents[i].update(delta_time);
+    if (!paused){
+      
+      for (unsigned int i = 0; i < agents.size(); ++i){
+        agents[i].update(delta_time);
+      }
+
+      agent_mouse_follower.set_chase_objective(Vector2D(ESAT::MousePositionX(), ESAT::MousePositionY()));
+      agent_mouse_follower.update(delta_time);
+
     }
-
-    agent_mouse_follower.set_chase_objective(Vector2D(ESAT::MousePositionX(), ESAT::MousePositionY()));
-    agent_mouse_follower.update(delta_time);
-
 
     ESAT::DrawClear(0, 0, 0, 255);
     ESAT::DrawBegin();
@@ -139,10 +160,24 @@ int ESAT::main(int argc, char** argv){
 
 
 
+    // PAUSE
+    if (ESAT::IsSpecialKeyDown(kSpecialKey_Space)){
+      if (paused){
+        paused = false;
+        printf(" *** UNPAUSED *** \n");
+      }else{
+        paused = true;
+        printf(" *** PAUSED *** \n");
+      }
+      
+    }
+    
     // DEBUG
     if (ESAT::IsKeyDown('P')){
       printf("MOUSE POSITION: X->%f | Y->%f\n", ESAT::MousePositionX(), ESAT::MousePositionY());
     }
+
+
 
     ESAT::DrawEnd();
 

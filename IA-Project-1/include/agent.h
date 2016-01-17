@@ -2,6 +2,7 @@
 #define __AGENT__
 
 #include <vector>
+#include <map>
 
 #include <nglvector.h>
 
@@ -20,6 +21,7 @@ public:
   void change_agent_type(AGENT_TYPE new_type);
 
   void set_patrol_points(std::vector<Vector2D> points);
+  void add_pattern(AGENT_PATTERNS pattern, float time);
   void set_chase_objective(Vector2D objective);
   void set_follow_objective(Agent *objective);
   void set_random_destination_point(Vector2D point);
@@ -28,6 +30,7 @@ public:
   void patrol(float dt);
   void chase(float dt);
   void follow(float dt);
+  void pattern(float dt);
   void random_movement(float dt);
 
   void update(float dt);
@@ -47,6 +50,12 @@ protected:
   std::vector<Vector2D> patrol_points_;
   Vector2D current_patrol_point_;
   unsigned int current_patrol_point_index_;
+
+  // PATTERN
+  std::multimap<AGENT_PATTERNS, float> patterns_storage_;
+  unsigned int current_doing_pattern_;
+  float pattern_done_time_;
+
 
   // CHASE
   Vector2D chase_objective_;
